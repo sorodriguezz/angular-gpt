@@ -4,5 +4,11 @@
       "externalTemplate": true,
       "skipStyle": true
     }
+  },
+  "workbench.colorCustomizations": {
+    "editorCursor.foreground": "#5eff00",
+    "activityBar.background": "#1D3310",
+    "titleBar.activeBackground": "#294816",
+    "titleBar.activeForeground": "#F7FBF4"
   }
 }
