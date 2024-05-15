@@ -39,7 +39,7 @@ export class OpenaiService {
     return from(imageGenerationUseCase(prompt, originalImage, maskImage));
   }
 
-  imageVartiation(originalImage: string) {
+  imageVariation(originalImage: string) {
     return from(imageVariationUseCase(originalImage));
   }
 }

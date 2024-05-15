@@ -11,17 +11,17 @@ export const imageVariationUseCase = async (
   originalImage: string
 ): Promise<GeneratedImage> => {
   try {
-    const response = await fetch(`${environment.backendApi}/image-variation`, {
+    const resp = await fetch(`${environment.backendApi}/image-variation`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify({
-        originalImage,
+        baseImage: originalImage,
       }),
     });
 
-    const { url, revisedPrompt: alt } = await response.json();
+    const { url, revised_prompt: alt } = await resp.json();
 
     return { url, alt };
   } catch (error) {
