@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { createThreadUseCase } from '@use-cases/assistant/create-thread.use-case';
+import { postQuestionUseCase } from '@use-cases/assistant/post-question.use-case';
 import { audioToTextUseCase } from '@use-cases/audios/audio-to-text.use-case';
 import { textToAudioUseCase } from '@use-cases/audios/text-to-audio.use-case';
 import { imageGenerationUseCase } from '@use-cases/image-generation/image-generation.use-case';
@@ -7,7 +9,7 @@ import { orthographyUseCase } from '@use-cases/orthography/orthography.use-case'
 import { prosConsStreamUseCase } from '@use-cases/pros-cons/pros-cons-stream.use-case';
 import { prosConsUseCase } from '@use-cases/pros-cons/pros-cons.use-case';
 import { translateUseCase } from '@use-cases/translate/translate.use-case';
-import { from } from 'rxjs';
+import { Observable, from, of, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class OpenaiService {
@@ -41,5 +43,21 @@ export class OpenaiService {
 
   imageVariation(originalImage: string) {
     return from(imageVariationUseCase(originalImage));
+  }
+
+  createThread(): Observable<string> {
+    if (localStorage.getItem('thread')) {
+      return of(localStorage.getItem('thread')!);
+    }
+
+    return from(createThreadUseCase()).pipe(
+      tap((thread) => {
+        localStorage.setItem('thread', thread);
+      })
+    );
+  }
+
+  postQuestion(question: string, threadId: string) {
+    return from(postQuestionUseCase(question, threadId));
   }
 }
